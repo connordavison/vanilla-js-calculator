@@ -1,14 +1,15 @@
-import ButtonHotkeyBinder from 'app/view/ButtonHotkeyBinder';
-
 export default class ButtonFactory {
-    public constructor(private hotkeyBinder: ButtonHotkeyBinder) {}
-
-    public create(value: string): HTMLButtonElement {
+    public create(
+        value: string,
+        className: string,
+        onClick: () => void,
+    ): HTMLButtonElement {
         const button = document.createElement('button');
 
         button.innerText = value;
-
-        this.hotkeyBinder.bind(value, button);
+        button.classList.add('button');
+        button.classList.add(className);
+        button.addEventListener('click', onClick);
 
         return button;
     }

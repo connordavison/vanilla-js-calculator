@@ -30,6 +30,11 @@ export default class CalculatorController {
         this.updateDisplay();
     }
 
+    public pushAllClear(): void {
+        this.input = this.calculator.createInput();
+        this.updateDisplay();
+    }
+
     public pushCompute(): void {
         const input = this.calculator.evaluate(this.input);
 

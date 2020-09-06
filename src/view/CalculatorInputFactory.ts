@@ -1,40 +1,75 @@
-import { Digit } from 'app/model/Digit';
 import DigitButtonFactory from 'app/view/DigitButtonFactory';
-import { Operator } from 'app/model/Operator';
 import CalculatorController from 'app/controller/CalculatorController';
 import OperatorButtonFactory from 'app/view/OperatorButtonFactory';
-import ComputeButtonFactory from 'app/view/ComputeButtonFactory';
+import ButtonFactory from 'app/view/ButtonFactory';
 
 export default class CalculatorInputFactory {
     public constructor(
         private digitButtonFactory: DigitButtonFactory,
         private operatorButtonFactory: OperatorButtonFactory,
-        private computeButtonFactory: ComputeButtonFactory,
+        private buttonFactory: ButtonFactory,
     ) {}
 
-    public create(calculatorController: CalculatorController): HTMLElement {
-        const digitPanel = this.createPanel(
-            this.digitButtonFactory.createAll(calculatorController),
-            'digit-panel',
-        );
-        const operatorPanel = this.createPanel(
-            this.operatorButtonFactory.createAll(calculatorController),
-            'operator-panel',
-        );
-
+    public create(controller: CalculatorController): HTMLElement {
         const container = document.createElement('section');
 
         container.classList.add('calculator-input');
-        container.appendChild(digitPanel);
-        container.appendChild(operatorPanel);
-        container.appendChild(this.computeButtonFactory.create(calculatorController));
+        container.appendChild(this.createDigitPanel(controller));
+        container.appendChild(this.createOperatorPanel(controller));
+        container.appendChild(this.createComputePanel(controller));
 
         return container;
     }
 
-    private createPanel(buttons: HTMLButtonElement[], className: string) {
+    private createDigitPanel(controller: CalculatorController) {
+        const negateButton = this.buttonFactory.create(
+            '+/-',
+            'button-negate',
+            () => controller.pushSign(),
+        );
+        const periodButton = this.buttonFactory.create(
+            '.',
+            'button-period',
+            () => controller.pushPeriod()
+        );
+
+        return this.createPanel(
+            [
+                ...this.digitButtonFactory.createAll(controller),
+                periodButton,
+                negateButton,
+            ],
+            'digit-panel',
+        );
+    }
+
+    private createOperatorPanel(controller: CalculatorController): HTMLElement {
+
+        return this.createPanel(
+            this.operatorButtonFactory.createAll(controller),
+            'operator-panel',
+        );
+    }
+
+    private createComputePanel(controller: CalculatorController): HTMLElement {
+        const allClearButton = this.buttonFactory.create(
+            'AC',
+            'button-all-clear',
+            () => controller.pushAllClear(),
+        );
+        const computeButton = this.buttonFactory.create(
+            '=',
+            'button-compute',
+            () => controller.pushCompute(),
+        );
+
+        return this.createPanel([allClearButton, computeButton], 'compute-panel');
+    }
+
+    private createPanel(buttons: HTMLButtonElement[], className: string): HTMLElement {
         const panel = document.createElement('section');
 
+        panel.classList.add('panel');
         panel.classList.add(className);
 
         buttons.forEach((button) => panel.appendChild(button));

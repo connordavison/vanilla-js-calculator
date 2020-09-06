@@ -10,11 +10,9 @@ export default class Calculator {
         return new InfixInput(new NumberInput());
     }
 
-    public evaluate(input: Input): Input|undefined {
+    public evaluate(input: Input): Input {
         const answer = this.expressionEvaluator.evaluate(input.toString());
 
-        if (answer) {
-            return new InfixInput(new NumberInput('0', answer));
-        }
+        return new InfixInput(new NumberInput('0', answer.toString()));
     }
 }
