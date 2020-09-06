@@ -57,13 +57,22 @@ export default class CalculatorInputFactory {
             'button-all-clear',
             () => controller.pushAllClear(),
         );
+        const clearButton = this.buttonFactory.create(
+            'C',
+            'button-clear',
+            () => controller.pushClear(),
+        );
         const computeButton = this.buttonFactory.create(
             '=',
             'button-compute',
             () => controller.pushCompute(),
         );
 
-        return this.createPanel([allClearButton, computeButton], 'compute-panel');
+        return this.createPanel([
+            allClearButton,
+            clearButton,
+            computeButton,
+        ], 'compute-panel');
     }
 
     private createPanel(buttons: HTMLButtonElement[], className: string): HTMLElement {

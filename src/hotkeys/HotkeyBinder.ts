@@ -17,6 +17,7 @@ export default class HotkeyBinder {
             bindings[operator] = () => controller.pushOperator(operator);
         }
 
+        bindings['Backspace'] = () => controller.pushClear();
         bindings['Enter'] = () => controller.pushCompute();
         bindings['Escape'] = () => controller.pushAllClear();
         bindings['.'] = () => controller.pushPeriod();

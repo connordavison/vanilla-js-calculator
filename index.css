@@ -64,7 +64,8 @@
     color: #EEE;
 }
 
-.button-all-clear {
+.button-all-clear,
+.button-clear {
     background-color: #AA3838;
     color: #EEE;
 }
