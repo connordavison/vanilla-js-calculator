@@ -6,6 +6,7 @@ import CalculatorInputFactory from 'app/view/CalculatorInputFactory';
 import DigitButtonFactory from 'app/view/DigitButtonFactory';
 import OperatorButtonFactory from 'app/view/OperatorButtonFactory';
 import ButtonFactory from 'app/view/ButtonFactory';
+import HotkeyBinder from 'app/hotkeys/HotkeyBinder';
 
 export default class App {
     public mount(root: HTMLElement): void {
@@ -20,6 +21,10 @@ export default class App {
             calculator,
         );
 
+        const hotkeyBinder = new HotkeyBinder();
+
+        hotkeyBinder.bind(root, calculatorController);
+
         const calculatorInputFactory = new CalculatorInputFactory(
             new DigitButtonFactory(buttonFactory),
             new OperatorButtonFactory(buttonFactory),
@@ -29,6 +34,7 @@ export default class App {
 
         root.appendChild(calculatorDisplay);
         root.appendChild(calculatorInput);
+
         calculatorController.pushAllClear();
     }
 }
